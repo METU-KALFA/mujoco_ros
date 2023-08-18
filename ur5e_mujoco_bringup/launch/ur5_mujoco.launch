@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# Copyright (c) 2021, Bence Magyar and Denis Stogl
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+-->
+
+<launch>
+
+  <arg name="controller_to_spawn" default="joint1_position_controller joint2_position_controller
+  joint3_position_controller joint4_position_controller joint5_position_controller joint6_position_controller" />
+  <arg name="controllers_yaml" default="ur5e_controllers" />
+
+  <include file="$(find ur5e_mujoco_bringup)/launch/ur5e.launch" >
+    <arg name="controller_to_spawn" value="$(arg controller_to_spawn)" />
+    <arg name="controllers_yaml" value="$(arg controllers_yaml)" />
+  </include>
+
+</launch>

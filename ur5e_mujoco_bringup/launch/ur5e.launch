@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+# Copyright (c) 2021, Bence Magyar and Denis Stogl
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+-->
+
+<launch>
+
+  <arg name="controller_to_spawn" default="" />
+  <arg name="controllers_yaml" default="ur5e_controllers.yaml" />
+
+  <param name="robot_description" command="$(find xacro)/xacro '$(find ur5e_description)/urdf/ur5e.xacro'" />
+
+  <node name="ur5e_hardware_interface" pkg="ur5e_hardware_interface" type="ur5e_hardware_interface_node">
+    <!-- Load standard controller joint names from YAML file to parameter server -->
+    <rosparam command="load" file="$(find ur5e_mujoco_bringup)/config/joint_names.yaml" />
+  </node>
+
+  <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam command="load" file="$(find ur5e_mujoco_bringup)/config/$(arg controllers_yaml).yaml" />
+
+  <!-- Load robot state publisher -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher">
+    <param name="ignore_timestamp" type="bool" value="true"/>
+  </node>
+
+  <!-- Load controllers -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen"
+      args="joint_state_controller $(arg controller_to_spawn)"/>
+
+   <node name="view_ur5e" pkg="rviz" type="rviz" args="-d $(find ur5e_description)/rviz/view_robot.rviz" /> 
+      
+
+
+
+</launch>

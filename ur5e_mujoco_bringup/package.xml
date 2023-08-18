@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package format="2">
+  <name>ur5e_mujoco_bringup</name>
+  <version>0.0.1</version>
+
+  <description>Bringup files for exemplary UR5e robot and scenarios with it in MuJoCo.</description>
+
+  <maintainer email="yunus.terzurumlu@gmail.com">Yunus Talha Erzurumlu</maintainer>
+
+
+  <license>Apache License 2.0</license>
+
+  <buildtool_depend>catkin</buildtool_depend>
+
+  <exec_depend>controller_manager</exec_depend>
+  <exec_depend>robot_state_publisher</exec_depend>
+  <exec_depend>roslaunch</exec_depend>
+  <exec_depend>ur5e_hardware_interface</exec_depend>
+  <exec_depend>rviz</exec_depend>
+  <exec_depend>xacro</exec_depend>
+
+</package>
