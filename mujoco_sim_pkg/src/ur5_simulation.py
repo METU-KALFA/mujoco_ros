@@ -71,7 +71,7 @@ class UR5Simulator:
 
 if __name__ == "__main__":
     rospy.init_node("mujoco_sim_node")
-    sim = UR5Simulator('/home/yunusi/mujoco_denme/src/mujoco_sim_pkg/src/universal_robots_ur5e/ur5e.xml')
+    sim = UR5Simulator('src/mujoco_sim_pkg/src/universal_robots_ur5e/ur5e.xml')
     viewer = sim.view()
     while viewer.is_running():
         # print("Joint Positions : ", sim.get_joint_pos().dtype)
