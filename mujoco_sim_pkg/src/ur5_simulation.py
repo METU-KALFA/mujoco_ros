@@ -23,6 +23,7 @@ class UR5Simulator:
         self.data.qpos[:] = np.array([-0.21493, -1.92668, -0.521474, -0.0147683, 0.0013998, 3.80268e-05])
 
         self.joint_state_pub = rospy.Publisher('/mujoco_joint_state', JointState, queue_size=10)
+        self.joint_state_pub_ = rospy.Publisher('/joint_states', JointState, queue_size=10)
         self.mujoco_commands_sub = rospy.Subscriber('/ur5e_hardware_interface/mujoco_commands', JointState, self.mujoco_commands_callback)
 
 
@@ -41,6 +42,7 @@ class UR5Simulator:
         joint_state.velocity = self.get_joint_vels()
         joint_state.effort = self.get_joint_torques()
         self.joint_state_pub.publish(joint_state)
+        self.joint_state_pub_.publish(joint_state)
         mujoco.mj_step(self.model, self.data)
         self.viewer.sync()
 
@@ -73,8 +75,10 @@ if __name__ == "__main__":
     rospy.init_node("mujoco_sim_node")
     sim = UR5Simulator('src/mujoco_sim_pkg/src/universal_robots_ur5e/ur5e.xml')
     viewer = sim.view()
-    while viewer.is_running():
+    rate = rospy.Rate(60)
+    while not rospy.is_shutdown() and viewer.is_running():  
         # print("Joint Positions : ", sim.get_joint_pos().dtype)
         # print("Joint Velocities : ", sim.get_joint_vels().dtype)        
         #sim.control([-50,-25,-30,20,0,0])
         sim.step()
+        rate.sleep()
