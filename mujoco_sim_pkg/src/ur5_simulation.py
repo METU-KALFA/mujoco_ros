@@ -9,7 +9,7 @@ e-mail : yunus.erzurumlu@metu.edu.tr
 import mujoco
 from mujoco import viewer
 import numpy as np
-
+import time
 import rospy
 from std_msgs.msg import Float64
 from sensor_msgs.msg import JointState
@@ -20,7 +20,7 @@ class UR5Simulator:
         
         self.model = mujoco.MjModel.from_xml_path(path) 
         self.data =  mujoco.MjData(self.model)
-        self.data.qpos[:] = np.array([-0.21493, -1.92668, -0.521474, -0.0147683, 0.0013998, 3.80268e-05])
+        self.data.qpos[:] = np.array([0.229509, 3.49866, -1.56646, -0.352227, 0.0481974, 3.92572e-05])
 
         self.joint_state_pub = rospy.Publisher('/mujoco_joint_state', JointState, queue_size=10)
         self.joint_state_pub_ = rospy.Publisher('/joint_states', JointState, queue_size=10)
@@ -75,10 +75,16 @@ if __name__ == "__main__":
     rospy.init_node("mujoco_sim_node")
     sim = UR5Simulator('src/mujoco_sim_pkg/src/universal_robots_ur5e/ur5e.xml')
     viewer = sim.view()
-    rate = rospy.Rate(60)
+    rate = rospy.Rate(40)
+    # for i in range(200):
+    #     sim.data.qpos[:] = np.array([-0.21493, -1.92668, -2.021474, -0.0147683, 0.0013998, 3.80268e-05])
+    #     time.sleep(0.1)
+    sim.data.qpos[:] = np.array([0.229509, 4.0, -1.0, 0.0, 1.5, 0])
+    time.sleep(0.2)
     while not rospy.is_shutdown() and viewer.is_running():  
         # print("Joint Positions : ", sim.get_joint_pos().dtype)
         # print("Joint Velocities : ", sim.get_joint_vels().dtype)        
         #sim.control([-50,-25,-30,20,0,0])
+        
         sim.step()
         rate.sleep()

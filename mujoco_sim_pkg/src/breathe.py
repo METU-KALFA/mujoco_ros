@@ -45,7 +45,7 @@ if __name__=="__main__":
         # ret = switch_controller(['joint_group_vel_controller'], 
         #             ['scaled_pos_joint_traj_controller'], 2, False, 1)
         #vel_msg = Float64MultiArray()
-        r = 40  # Rate (Frequency)
+        r = 30  # Rate (Frequency)
         rate = rospy.Rate(r)
 
         # Read pose and joint states once. First readings take larger time that breaks expected loop structure.
@@ -77,12 +77,12 @@ if __name__=="__main__":
         shape_vel = np.array([shape_data[i+1]-shape_data[i] for i in range(len(shape_data)-1)])
         num_of_vel_pts = shape_vel.shape[0]
         indices = np.linspace(1, num_of_vel_pts, num_of_vel_pts)
-        
+        shape_vel = shape_vel * 30
         print("Period >= 3 feels good")
-        b = 20
+        b = 6
         
         # Breathing parameters: Amplitude, Frequency (bpm), Total Duration
-        amplitude = 120.0
+        amplitude = 30
         bpm = 1.0/b
         i=1
 
