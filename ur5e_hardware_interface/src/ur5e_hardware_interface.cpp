@@ -21,6 +21,7 @@ bool UR5eHardwareInterface::init(ros::NodeHandle & /*root_nh*/, ros::NodeHandle 
   hw_position_states_.resize(num_joints, std::numeric_limits<double>::quiet_NaN());
   hw_position_commands_.resize(num_joints, std::numeric_limits<double>::quiet_NaN());
   hw_velocity_states_.resize(num_joints, std::numeric_limits<double>::quiet_NaN());
+  hw_velocity_commands_.resize(num_joints, std::numeric_limits<double>::quiet_NaN());
   hw_effort_states_.resize(num_joints, std::numeric_limits<double>::quiet_NaN());
 
   // Create ros_control interfaces for joint states and position commands
@@ -35,19 +36,27 @@ bool UR5eHardwareInterface::init(ros::NodeHandle & /*root_nh*/, ros::NodeHandle 
     position_command_interface_.registerHandle(
       hardware_interface::JointHandle(
         joint_state_interface_.getHandle(joint_names_[i]), &hw_position_commands_[i]));
+
+    velocity_command_interface_.registerHandle(
+      hardware_interface::JointHandle(
+        joint_state_interface_.getHandle(joint_names_[i]), &hw_velocity_commands_[i]));
   }
 
   // Register interfaces with the hardware interface manager
   registerInterface(&joint_state_interface_);
-  registerInterface(&position_command_interface_);
+  // registerInterface(&position_command_interface_);
+  registerInterface(&velocity_command_interface_);
+
 
   // Print status message
   ROS_INFO_NAMED("UR5eHardwareInterface", "Starting...");
 
   // Set initial state positions to zero
   for (size_t i = 0; i < num_joints; ++i) {
-    hw_position_states_[i] = 0.0;
-    hw_position_commands_[i] = hw_position_states_[i];
+    // hw_position_states_[i] = 0.0;
+    // hw_position_commands_[i] = hw_position_states_[i];
+    hw_velocity_states_[i] = 0.0;
+    hw_velocity_commands_[i] = hw_position_states_[i];
   }
 
   // Subscribe to the joint state topic and advertise commands
@@ -90,7 +99,8 @@ bool UR5eHardwareInterface::write(const ros::Time time, const ros::Duration peri
   sensor_msgs::JointState mujoco_commands_msg;
   
   // Set the commands to be sent to the hardware
-  mujoco_commands_msg.position = hw_position_commands_;
+  // mujoco_commands_msg.position = hw_position_commands_;
+  mujoco_commands_msg.velocity = hw_velocity_commands_;
   
   // Publish the commands
   mujoco_commands_pub.publish(mujoco_commands_msg);

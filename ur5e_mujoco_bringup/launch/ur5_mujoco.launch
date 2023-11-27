@@ -19,8 +19,10 @@
 
   <!-- <arg name="controller_to_spawn" default="joint1_position_controller joint2_position_controller
   joint3_position_controller joint4_position_controller joint5_position_controller joint6_position_controller" /> -->
-  <arg name="controller_to_spawn" default="joint1_velocity_controller joint2_velocity_controller
-  joint3_velocity_controller joint4_velocity_controller joint5_velocity_controller joint6_velocity_controller" />
+  <!-- <arg name="controller_to_spawn" default="joint1_velocity_controller joint2_velocity_controller
+  joint3_velocity_controller joint4_velocity_controller joint5_velocity_controller joint6_velocity_controller" /> -->
+  <arg name="controller_to_spawn" default="joint_group_vel_controller"/>
+  j
    <!-- <arg name="controller_to_spawn" default="" /> -->
   <arg name="controllers_yaml" default="ur5e_controllers" />
 

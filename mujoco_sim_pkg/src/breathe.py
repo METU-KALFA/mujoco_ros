@@ -4,7 +4,7 @@ import moveit_commander
 import numpy as np
 import tf2_ros
 from scipy.spatial.transform import Rotation as R
-from std_msgs.msg import Float64
+from std_msgs.msg import Float64,Float64MultiArray
 from controller_manager_msgs.srv import SwitchController
 
 import copy
@@ -15,7 +15,6 @@ global do_gaze
 
 if __name__=="__main__":
 
-    # group = moveit_commander.MoveGroupCommander("manipulator")
     group = moveit_commander.MoveGroupCommander("moveit_mj_planner")
 
     rospy.init_node("BREATHER")
@@ -29,14 +28,9 @@ if __name__=="__main__":
     tfBuffer = tf2_ros.Buffer()
     listener = tf2_ros.TransformListener(tfBuffer)
 
-    pub1 = rospy.Publisher("joint1_velocity_controller/command", Float64, queue_size=10) 
-    pub2 = rospy.Publisher("joint2_velocity_controller/command", Float64, queue_size=10) 
-    pub3 = rospy.Publisher("joint3_velocity_controller/command", Float64, queue_size=10) 
-    pub4 = rospy.Publisher("joint4_velocity_controller/command", Float64, queue_size=10) 
-    pub5 = rospy.Publisher("joint5_velocity_controller/command", Float64, queue_size=10) 
-    pub6 = rospy.Publisher("joint6_velocity_controller/command", Float64, queue_size=10) 
+    pub = rospy.Publisher('/joint_group_vel_controller/command', Float64MultiArray, queue_size=10)
 
-    while pub1.get_num_connections() == 0:
+    while pub.get_num_connections() == 0:
         rospy.sleep(0.1)
 
     while not rospy.is_shutdown():
@@ -82,7 +76,7 @@ if __name__=="__main__":
         b = 6
         
         # Breathing parameters: Amplitude, Frequency (bpm), Total Duration
-        amplitude = 30
+        amplitude = 120
         bpm = 1.0/b
         i=1
 
@@ -106,27 +100,10 @@ if __name__=="__main__":
             joint_vels = np.dot(pinv_jacobian[:3], vel)
             joint_vels = np.concatenate((joint_vels, [0,0,0]))
             # Publish joint vels to robot
-            #vel_msg = Float64MultiArray()
-            #vel_msg.data = joint_vels.tolist()
-            vel_msg_1 = Float64()
-            vel_msg_1.data = joint_vels[0]
-            vel_msg_2 = Float64()
-            vel_msg_2.data = joint_vels[1]
-            vel_msg_3 = Float64()
-            vel_msg_3.data = joint_vels[2]
-            vel_msg_4 = Float64()
-            vel_msg_4.data = joint_vels[3]
-            vel_msg_5 = Float64()
-            vel_msg_5.data = joint_vels[4]
-            vel_msg_6 = Float64()
-            vel_msg_6.data = joint_vels[5]
+            vel_msg = Float64MultiArray()
+            vel_msg.data = joint_vels.tolist()
 
-            pub1.publish(vel_msg_1)
-            pub2.publish(vel_msg_2)
-            pub3.publish(vel_msg_3)
-            pub4.publish(vel_msg_4)
-            pub5.publish(vel_msg_5)
-            pub6.publish(vel_msg_6)
+            pub.publish(vel_msg)
 
 
 
@@ -135,26 +112,8 @@ if __name__=="__main__":
             #print("Rate", 1 / (sstart - stop))
             sstart = rospy.get_time()
 
-        # vel_msg = Float64MultiArray()
-        # vel_msg.data = [0., 0., 0., 0., 0., 0.]
+        vel_msg = Float64MultiArray()
+        vel_msg.data = [0., 0., 0., 0., 0., 0.]
 
-        vel_msg_1 = Float64()
-        vel_msg_1.data = 0.
-        vel_msg_2 = Float64()
-        vel_msg_2.data = 0.
-        vel_msg_3 = Float64()
-        vel_msg_3.data = 0.
-        vel_msg_4 = Float64()
-        vel_msg_4.data = 0.
-        vel_msg_5 = Float64()
-        vel_msg_5.data = 0.
-        vel_msg_6 = Float64()
-        vel_msg_6.data = 0.
 
-        pub1.publish(vel_msg_1)
-        pub2.publish(vel_msg_2)
-        pub3.publish(vel_msg_3)
-        pub4.publish(vel_msg_4)
-        pub5.publish(vel_msg_5)
-        pub6.publish(vel_msg_6)
-        # pub.publish(vel_msg)
+        pub.publish(vel_msg)

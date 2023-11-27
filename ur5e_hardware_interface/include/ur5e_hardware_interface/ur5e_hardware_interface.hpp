@@ -29,6 +29,8 @@ private:
   // Interfaces for joint state and position command
   hardware_interface::JointStateInterface joint_state_interface_;
   hardware_interface::EffortJointInterface position_command_interface_;
+  hardware_interface::VelocityJointInterface velocity_command_interface_;
+
   
   // ROS subscriber and publisher for joint states and commands
   ros::Subscriber joint_state_subscriber_;
@@ -38,6 +40,7 @@ private:
   std::vector<double> hw_position_commands_;
   std::vector<double> hw_position_states_;
   std::vector<double> hw_velocity_states_;
+  std::vector<double> hw_velocity_commands_;
   std::vector<double> hw_effort_states_;
 
   // Latest received joint state data
