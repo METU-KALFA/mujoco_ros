@@ -76,7 +76,7 @@ if __name__=="__main__":
         b = 6
         
         # Breathing parameters: Amplitude, Frequency (bpm), Total Duration
-        amplitude = 120
+        amplitude = 40
         bpm = 1.0/b
         i=1
 

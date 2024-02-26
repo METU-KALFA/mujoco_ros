@@ -28,7 +28,7 @@ public:
 private:
   // Interfaces for joint state and position command
   hardware_interface::JointStateInterface joint_state_interface_;
-  hardware_interface::EffortJointInterface position_command_interface_;
+  hardware_interface::PositionJointInterface position_command_interface_;
   hardware_interface::VelocityJointInterface velocity_command_interface_;
 
   

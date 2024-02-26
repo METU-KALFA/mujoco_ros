@@ -15,10 +15,10 @@ joint_states_global = {}
 config = {
     "exp_number" : "exp014",
     "interrupt_index" : 0.45,   
-    "exit_index" : 0.60,
-    "amplitude" : 240./80,
-    "period" : 2,
-    "rate" : 200,
+    "exit_index" : 0.70,
+    "amplitude" : 70./80,
+    "period" : 1,
+    "rate" : 30,
     "compansete_after": 1,
     "exp_time" : 600.0,
     "breathe_vector" : [1.,0.,0.] # This is in flange frame
@@ -48,11 +48,13 @@ class Compensator():
         self.exit_pos, self.target_pos = None, None
         self.exit_vel, self.target_vel = None, None
         self.n_joints = 6
-        self.ff = np.repeat([1], self.n_joints)
-        self.kp, self.kd = np.repeat([0.05], self.n_joints), np.repeat([0.001], self.n_joints)
+        self.ff = np.repeat([0.1], self.n_joints)
+        self.kp, self.kd = np.repeat([4], self.n_joints), np.repeat([0.01], self.n_joints)
         self.error, self.d_error = np.zeros(self.n_joints), np.zeros(self.n_joints)
         self.error_matrix = np.zeros((self.n_joints,1)) 
-        
+
+
+        self.kp[1] = - self.kp[1] * 3
     def generate_segment(self, rate):
         global joint_states_global
         self.i = 0
@@ -78,6 +80,7 @@ class Compensator():
         des_pos = np.array([vals[self.i] for vals in self.vals])
         des_vel = np.array([vals[self.i] for vals in self.speeds])
         error = des_pos - joint_states_global["pos"]
+        print("Error: ", error )
         d_error = des_vel - joint_states_global["vels"]
         self.error_matrix = np.concatenate((self.error_matrix, error.reshape(6,1)), axis=1)
         command = des_vel*self.ff + error*self.kp + d_error*self.kd

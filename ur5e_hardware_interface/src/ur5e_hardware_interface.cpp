@@ -44,8 +44,8 @@ bool UR5eHardwareInterface::init(ros::NodeHandle & /*root_nh*/, ros::NodeHandle 
 
   // Register interfaces with the hardware interface manager
   registerInterface(&joint_state_interface_);
-  // registerInterface(&position_command_interface_);
-  registerInterface(&velocity_command_interface_);
+  registerInterface(&position_command_interface_);
+  // registerInterface(&velocity_command_interface_);
 
 
   // Print status message
@@ -53,10 +53,10 @@ bool UR5eHardwareInterface::init(ros::NodeHandle & /*root_nh*/, ros::NodeHandle 
 
   // Set initial state positions to zero
   for (size_t i = 0; i < num_joints; ++i) {
-    // hw_position_states_[i] = 0.0;
-    // hw_position_commands_[i] = hw_position_states_[i];
-    hw_velocity_states_[i] = 0.0;
-    hw_velocity_commands_[i] = hw_position_states_[i];
+    hw_position_states_[i] = 0.0;
+    hw_position_commands_[i] = hw_position_states_[i];
+    // hw_velocity_states_[i] = 0.0;
+    // hw_velocity_commands_[i] = hw_position_states_[i];
   }
 
   // Subscribe to the joint state topic and advertise commands
@@ -99,8 +99,8 @@ bool UR5eHardwareInterface::write(const ros::Time time, const ros::Duration peri
   sensor_msgs::JointState mujoco_commands_msg;
   
   // Set the commands to be sent to the hardware
-  // mujoco_commands_msg.position = hw_position_commands_;
-  mujoco_commands_msg.velocity = hw_velocity_commands_;
+  mujoco_commands_msg.position = hw_position_commands_;
+  // mujoco_commands_msg.velocity = hw_velocity_commands_;
   
   // Publish the commands
   mujoco_commands_pub.publish(mujoco_commands_msg);

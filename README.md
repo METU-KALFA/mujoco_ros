@@ -13,7 +13,7 @@
 - [Author](#author)
 - [Acknowledgements](#acknowledgements)
 - [Status](#status)
-- 
+
  ### Introduction 
 In today's fast-paced tech world, simulations are like a secret weapon for crafting robots. Our goal? To connect the world of Robotic Operating Systems [(ROS)](https://www.ros.org/) with the awesome physics simulation capabilities of DeepMind's  [MuJoCo](https://mujoco.org/).
 
@@ -53,8 +53,17 @@ Launch ROS bridge:
   
 Launch the simulation:
 
- 	python ur5_simulation.py
-  
+ 	python3 src/mujoco_sim_pkg/scripts/ur5_simulation.py
+
+Launch MoveIt Controllers (Make sure ros_controllers didn't crashed):
+
+ 	roslaunch ur5e_moveit_mj ros_controllers.launch
+
+ 	roslaunch ur5e_moveit_mj move_group.launch
+
+Now you can control the trajectory of the robot, using MoveIt.
+
+
 ### Join Us!
 We want your help! You can copy our code, add to it, report problems, and team up with others who love robots and simulations. Add support to other robots, add different controllers etc. Sky is the limit!
 

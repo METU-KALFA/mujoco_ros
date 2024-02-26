@@ -1,5 +1,5 @@
 arm_controller:
-  type: effort_controllers/JointTrajectoryController
+  type: position_controllers/JointTrajectoryController
   joints:
     - shoulder_pan_joint
     - shoulder_lift_joint
@@ -9,19 +9,19 @@ arm_controller:
     - wrist_3_joint
   gains:
     shoulder_pan_joint:
-      p: 1000
-      d: 40
-      i: 10
+      p: 100
+      d: 1
+      i: 1
       i_clamp: 1
     shoulder_lift_joint:
-      p: 1000
-      d: 40
-      i: 10
+      p: 100
+      d: 1
+      i: 1
       i_clamp: 1
     elbow_joint:
-      p: 800
-      d: 30
-      i: 8
+      p: 100
+      d: 1
+      i: 1
       i_clamp: 1
     wrist_1_joint:
       p: 100

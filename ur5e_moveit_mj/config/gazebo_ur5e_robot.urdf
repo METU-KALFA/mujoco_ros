@@ -66,7 +66,7 @@
         </joint>
         <actuator name="shoulder_pan_motor">
             <mechanicalReduction>1</mechanicalReduction>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
         </actuator>
     </transmission>
     <transmission name="shoulder_lift_trans">
@@ -76,7 +76,7 @@
         </joint>
         <actuator name="shoulder_lift_motor">
             <mechanicalReduction>1</mechanicalReduction>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
         </actuator>
     </transmission>
     <transmission name="elbow_trans">
@@ -86,7 +86,7 @@
         </joint>
         <actuator name="elbow_motor">
             <mechanicalReduction>1</mechanicalReduction>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
         </actuator>
     </transmission>
     <transmission name="wrist_1_trans">
@@ -96,7 +96,7 @@
         </joint>
         <actuator name="wrist_1_motor">
             <mechanicalReduction>1</mechanicalReduction>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
         </actuator>
     </transmission>
     <transmission name="wrist_2_trans">
@@ -106,7 +106,7 @@
         </joint>
         <actuator name="wrist_2_motor">
             <mechanicalReduction>1</mechanicalReduction>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
         </actuator>
     </transmission>
     <transmission name="wrist_3_trans">
@@ -116,7 +116,7 @@
         </joint>
         <actuator name="wrist_3_motor">
             <mechanicalReduction>1</mechanicalReduction>
-            <hardwareInterface>hardware_interface/EffortJointInterface</hardwareInterface>
+            <hardwareInterface>hardware_interface/PositionJointInterface</hardwareInterface>
         </actuator>
     </transmission>
     <!-- links: main serial chain -->
